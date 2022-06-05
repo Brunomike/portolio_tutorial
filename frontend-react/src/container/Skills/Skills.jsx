@@ -7,7 +7,7 @@ import {urlFor, client} from '../../client';
 import './Skills.scss';
 
 const Skills = () => {
-    const [experience, setExperience] = useState([]);
+    const [experiences, setExperiences] = useState([]);
     const [skills, setSkills] = useState([]);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const Skills = () => {
         client.fetch(query)
             .then((data) => {
                 //console.log(`experiences: ${console.table(data)}`);
-                setExperience(data);
+                setExperiences(data);
             });
 
         client.fetch(skillsQuery)
@@ -38,7 +38,7 @@ const Skills = () => {
                             whileInView={{opacity: [0, 1]}}
                             transition={{duration: 0.5}}
                             className='app__skills-item app__flex'
-                            key={skill._id}
+                            key={skill.name}
                         >
                             <div className='app__flex' style={{backgroundColor: skill.bgColor}}>
                                 <img src={urlFor(skill.icon)} alt={skill.name}/>
@@ -48,9 +48,9 @@ const Skills = () => {
                     ))}
                 </motion.div>
 
-            </div>
-            <motion.div className='app__skills-exp'>
-                {experience?.map((experience) => (
+           
+            <div className='app__skills-exp'>
+                {experiences?.map((experience) => (
                     <motion.div
                         className="app__skills-exp-item"
                         key={experience.year}
@@ -65,7 +65,7 @@ const Skills = () => {
                                     <motion.div
                                         whileInView={{opacity: [0, 1]}}
                                         transition={{duration: 0.5}}
-                                        className='app__skills-exp-work app__flex'
+                                        className='app__skills-exp-work'
                                         data-tip
                                         data-for={work.name}
                                         key={work.name}>
@@ -83,16 +83,13 @@ const Skills = () => {
                                 </>
                             ))}
                         </motion.div>
-
                     </motion.div>
-
                 ))}
-            </motion.div>
+            </div>
+            </div>
         </>
     )
 }
-
-//export default AppWrapper(Skills, 'skills');
 
 export default AppWrapper(
   MotionWrapper(Skills, 'app__skills'),
